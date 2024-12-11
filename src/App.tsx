@@ -12,7 +12,28 @@ const getUrl = (ipAddress: string) =>
 function App() {
   const [queryIp, setQueryIp] = useState('');
   const [position, setPosition] = useState<LatLng>(new LatLng(51.505, -0.09));
-  const [ipData, setIpData] = useState<IpResponse>({} as IpResponse);
+  const [ipData, setIpData] = useState<IpResponse>({
+    ip: '',
+    location: {
+      city: '',
+      country: '',
+      lat: 0,
+      lng: 0,
+      postalCode: '',
+      region: '',
+      timezone: '',
+      geonameId: 0,
+    },
+    domains: [],
+    as: {
+      asn: 0,
+      name: '',
+      route: '',
+      domain: '',
+      type: '',
+    },
+    isp: '',
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

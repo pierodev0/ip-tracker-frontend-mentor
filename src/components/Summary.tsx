@@ -5,7 +5,7 @@ interface SummaryProps extends React.HTMLAttributes<HTMLElement> {
   isLoading: boolean;
 }
 
-function Summary({ ipData, className, isLoading }: SummaryProps) {
+function Summary({ ipData, className }: SummaryProps) {
   return (
     <article
       className={cn(
@@ -13,28 +13,22 @@ function Summary({ ipData, className, isLoading }: SummaryProps) {
         className,
       )}
     >
-      {isLoading ? (
-        <p className='text-center text-2xl text-blue-400'>Loading</p>
-      ) : (
-        <>
-          <div className='flex-1 p-2 text-center sm:p-0'>
-            <h2 className='text-gray-400'>IP Address</h2>
-            <p className='text-lg font-bold'>{ipData.ip}</p>
-          </div>
-          {/* <div className='flex-1 p-2 text-center sm:p-0'>
-            <h2 className='text-gray-400'>Location</h2>
-            <p className='text-lg font-bold'>{ipData.location.city}</p>
-          </div>
-          <div className='flex-1 p-2 text-center sm:p-0'>
-            <h2 className='text-gray-400'>Timezone</h2>
-            <p className='text-lg font-bold'>UTC {ipData.location.timezone}</p>
-          </div>
-          <div className='flex-1 p-2 text-center sm:p-0'>
-            <h2 className='text-gray-400'>ISP</h2>
-            <p className='text-lg font-bold'>{ipData.isp}</p>
-          </div> */}
-        </>
-      )}
+      <div className='flex-1 p-2 text-center sm:p-0'>
+        <h2 className='text-gray-400'>IP Address</h2>
+        <p className='text-lg font-bold'>{ipData.ip}</p>
+      </div>
+      <div className='flex-1 p-2 text-center sm:p-0'>
+        <h2 className='text-gray-400'>Location</h2>
+        <p className='text-lg font-bold'>{ipData.location.city}</p>
+      </div>
+      <div className='flex-1 p-2 text-center sm:p-0'>
+        <h2 className='text-gray-400'>Timezone</h2>
+        <p className='text-lg font-bold'>UTC {ipData.location.timezone}</p>
+      </div>
+      <div className='flex-1 p-2 text-center sm:p-0'>
+        <h2 className='text-gray-400'>ISP</h2>
+        <p className='text-lg font-bold'>{ipData.isp}</p>
+      </div>
     </article>
   );
 }
