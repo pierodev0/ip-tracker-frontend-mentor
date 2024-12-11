@@ -2,6 +2,7 @@ import Summary from 'components/Summary';
 import Container from 'components/ui/Container';
 import IconArrow from 'components/ui/icons/IconArrow';
 import { latLng, LatLng } from 'leaflet';
+import { cn } from 'lib/utils';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { IpResponse, IpSchema } from 'schemas';
@@ -12,6 +13,7 @@ const getUrl = (ipAddress: string) =>
 function App() {
   const [queryIp, setQueryIp] = useState('');
   const [position, setPosition] = useState<LatLng>(new LatLng(51.505, -0.09));
+  const [error, setError] = useState(false);
   const [ipData, setIpData] = useState<IpResponse>({
     ip: '',
     location: {
@@ -60,33 +62,49 @@ function App() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!queryIp) return;
+
+    if (!queryIp || !/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/.test(queryIp)) {
+      setError(true);
+      return;
+    }
     getPosition(queryIp);
+    setError(false);
+    setQueryIp('');
   }
 
   return (
     <>
       <main className='flex h-screen flex-col bg-yellow-100'>
-        <section className='relative bg-blue-200 py-12 pb-48 md:pb-24'>
+        <section className='relative bg-[url("/pattern-bg-desktop.png")] bg-cover bg-no-repeat py-12 pb-48 md:pb-24'>
           <Container className='space-y-4'>
-            <h1 className='text-center text-4xl font-bold'> IP Address Tracker</h1>
+            <h1 className='text-center text-4xl font-bold text-white'> IP Address Tracker</h1>
             <form
-              className='mx-auto flex w-3/4 overflow-hidden rounded-xl shadow-md lg:w-1/2'
+              className='relative mx-auto flex w-3/4 rounded-xl shadow-md lg:w-1/2'
               onSubmit={handleSubmit}
             >
               <input
                 type='text'
-                className='h-12 w-[100px] flex-1 px-6 focus:outline-none'
-                placeholder='Search for any IP address or domain'
+                className={cn(
+                  'h-12 w-[100px] flex-1 rounded-l-xl px-6 hover:cursor-pointer focus:outline-none',
+                  error && 'text-red-400',
+                )}
+                // TODO: Add feature search by domains
+                placeholder='Search for any IP address'
                 value={queryIp}
-                onChange={(e) => setQueryIp(e.target.value)}
+                onChange={(e) => setQueryIp(e.target.value.trim())}
               />
               <button
                 type='submit'
-                className='flex w-10 shrink-0 items-center justify-center bg-black'
+                className='flex w-12 shrink-0 items-center justify-center rounded-r-xl bg-black hover:bg-black/70'
               >
                 <IconArrow />
               </button>
+
+              {error && (
+                <p className='absolute bottom-0 left-4 translate-y-full pt-2 italic text-red-400'>
+                  Ip no valida
+                </p>
+              )}
             </form>
           </Container>
           <Summary
