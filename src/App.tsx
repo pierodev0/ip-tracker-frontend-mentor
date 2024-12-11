@@ -1,7 +1,7 @@
 import Summary from 'components/Summary';
 import Container from 'components/ui/Container';
 import IconArrow from 'components/ui/icons/IconArrow';
-import { latLng, LatLng } from 'leaflet';
+import { LatLng } from 'leaflet';
 import { cn } from 'lib/utils';
 import { useEffect, useState } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
